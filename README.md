@@ -7,8 +7,9 @@ SQL string literals inside `.go` files.
 ## What's here
 
 ```
+.pgls.json         -- Tells pgls to load DDL from ./schema (auto-discovered)
 schema/
-  users.sql        -- DDL fed to pgls via initializationOptions.schemaDir
+  users.sql        -- CREATE TABLE definitions
   orders.sql
 example.sql        -- Standalone SQL file to play with
 main.go            -- Backtick SQL strings inside Go source
@@ -22,21 +23,13 @@ main.go            -- Backtick SQL strings inside Go source
    go install github.com/winebarrel/pgls@latest
    ```
 
-2. Install a pgls editor client. Examples:
+2. Install an editor client:
 
    - VSCode: <https://github.com/winebarrel/pgls-vscode>
-   - Neovim built-in LSP: see the pgls README
+   - Neovim / Vim / Helix: see the [pgls README](https://github.com/winebarrel/pgls#editor-setup)
 
-3. Tell the editor where the schema lives. For VSCode add a workspace
-   setting at `.vscode/settings.json` (kept out of git intentionally):
-
-   ```json
-   {
-     "pgls.schemaDir": "schema"
-   }
-   ```
-
-   For Neovim point `init_options.schemaDir = "schema"` at the same path.
+3. Open this folder in your editor — pgls picks up `.pgls.json`
+   automatically, no per-editor `schemaDir` configuration needed.
 
 ## Try it
 
@@ -49,6 +42,8 @@ Open `example.sql` or `main.go` and:
 - After `u.` → only the columns of `users`.
 - Hover over `email` → `users.email varchar`.
 - Hover over `users` → a markdown table of the columns.
+- Cmd+click on a table or `u.email` → opens the corresponding row in
+  `schema/users.sql`.
 - Uncomment the diagnostic-fire lines at the bottom of either file to
   see `pgls` flag the typos.
 
