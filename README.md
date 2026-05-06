@@ -47,6 +47,17 @@ Open `example.sql` or `main.go` and:
 - Uncomment the diagnostic-fire lines at the bottom of either file to
   see `pgls` flag the typos.
 
+`main.go` shows two ways pgls picks up SQL strings:
+
+- **Marker form** (`q1`, `q2`): a `// language=sql` comment on the
+  line directly above flags the string as SQL.
+- **Function-call form** (`db.Query(...)`): no comment needed —
+  pgls's default `sqlFunctions` set covers `database/sql`'s
+  `Query` / `Exec` / `Prepare` and their `*Context` variants.
+
+Strings outside both paths (`notSQL` in the example) are
+intentionally ignored.
+
 ## License
 
 MIT
